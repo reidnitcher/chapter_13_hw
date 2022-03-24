@@ -1,8 +1,6 @@
 import tkinter
 import tkinter.messagebox
 
-from matplotlib.pyplot import text
-
 class pizza_calc:
     def __init__(self):
         
@@ -23,13 +21,24 @@ class pizza_calc:
         self.prompt1_label.pack(side='top')
         self.name_entry.pack(side='top')
 
+        self.top1_var = tkinter.IntVar()
+        self.top2_var = tkinter.IntVar()
+        self.top3_var = tkinter.IntVar()
+        self.top4_var = tkinter.IntVar()
+        self.top5_var = tkinter.IntVar()
+
+        self.top1_var.set(0)
+        self.top2_var.set(0)
+        self.top3_var.set(0)
+        self.top4_var.set(0)
+        self.top5_var.set(0)
+
         self.prompt2_label = tkinter.Label(self.top_frame,text='Select your toppings: ')
-        self.topping1 = tkinter.Checkbutton(self.top_frame,text= 'Pepperoni')
-        self.top2 = tkinter.Checkbutton(self.top_frame, text='Sausage')
-        self.top2 = tkinter.Checkbutton(self.top_frame, text='Sausage')
-        self.top3 = tkinter.Checkbutton(self.top_frame,text='mushrooms')
-        self.top4 = tkinter.Checkbutton(self.top_frame,text = 'olives')
-        self.top5 = tkinter.Checkbutton(self.top_frame,text = 'peppers')
+        self.topping1 = tkinter.Checkbutton(self.top_frame,text= 'Pepperoni(+$0.50)',variable=self.top1_var)
+        self.top2 = tkinter.Checkbutton(self.top_frame, text='Sausage(+$0.50)',variable=self.top2_var)
+        self.top3 = tkinter.Checkbutton(self.top_frame,text='Mushrooms(+$1.00)',variable=self.top3_var)
+        self.top4 = tkinter.Checkbutton(self.top_frame,text = 'Olives(+$1.00)',variable=self.top4_var)
+        self.top5 = tkinter.Checkbutton(self.top_frame,text = 'Peppers(+$0.50)',variable=self.top5_var)
 
         self.prompt2_label.pack(side='top')
         self.topping1.pack(side='top')
@@ -46,15 +55,15 @@ class pizza_calc:
         self.radio_var.set(0)
 
         self.rb1 = tkinter.Radiobutton(self.top_frame, 
-                                        text = 'Hand-Tossed', 
+                                        text = 'Hand-Tossed(+$11.99)', 
                                         variable=self.radio_var, 
                                         value=1)
         self.rb2 = tkinter.Radiobutton(self.top_frame, 
-                                        text = 'Thin Crust', 
+                                        text = 'Thin Crust(+$12.50)', 
                                         variable=self.radio_var, 
                                         value=2)
         self.rb3 = tkinter.Radiobutton(self.top_frame, 
-                                        text = 'Deep Dish', 
+                                        text = 'Deep Dish(+$14.00)',
                                         variable=self.radio_var, 
                                         value=3)
         self.rb2.select()
@@ -72,6 +81,28 @@ class pizza_calc:
         tkinter.mainloop()
     
     def calc_total(self):
-        tkinter.messagebox.showinfo("Receipt", 'Name: ' + 'Total:')
+        
+        toppings = 0
+        
+        if self.radio_var.get() == 1:
+            crust = 11.99
+        if self.radio_var.get() == 2:
+            crust = 12.50
+        if self.radio_var.get() == 3:
+            crust = 14
+        if self.top1_var.get() == 1:
+            toppings += .5
+        if self.top2_var.get() == 1:
+            toppings += .5
+        if self.top3_var.get() ==1 :
+            toppings += 1
+        if self.top4_var.get() ==1:
+            toppings += 1
+        if self.top5_var.get() ==1:
+            toppings += .5
+        total = crust + toppings
+        tkinter.messagebox.showinfo("Receipt", 'Name: '+ self.name_entry.get() + '\n' +
+                                                              'Total: $' + str(total))
+
 pizza_pizza = pizza_calc()
 
